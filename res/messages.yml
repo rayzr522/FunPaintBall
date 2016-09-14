@@ -1,0 +1,4 @@
+command-help: "&8» &2{0} &8| &a{1}"
+plugin-info: "&aThis server is running &e{0}"
+no-permission: "&cYou don't have permission to do that!"
+only-players: "&cOnly players can use that commmand"

@@ -1,0 +1,9 @@
+name: FunPaintBall
+main: com.rayzr522.funpaintball.FunPaintBall
+version: 1.0
+description: Paintball with a few fun features!
+author: [Rayzr522]
+commands:
+  funpaintball:
+    description: "FunPaintBall command"
+    aliases: fpb, paintball, pb
