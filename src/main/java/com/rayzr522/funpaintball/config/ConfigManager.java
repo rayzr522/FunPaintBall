@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,7 +21,6 @@ import com.rayzr522.funpaintball.config.handlers.VectorSerializer;
 import com.rayzr522.funpaintball.config.handlers.WorldSerializer;
 import com.rayzr522.funpaintball.util.ArrayUtils;
 import com.rayzr522.funpaintball.util.Reflection;
-import com.sun.xml.internal.bind.v2.runtime.Location;
 
 public class ConfigManager {
 
