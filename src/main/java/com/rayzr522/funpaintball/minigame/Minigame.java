@@ -101,5 +101,22 @@ public class Minigame {
 	public File getFile(String path) {
 		return new File(plugin.getDataFolder() + File.separator + path);
 	}
-
+	
+	public void createArena(String name) {
+		YamlConfiguration y = getConfig("arenas.yml");
+		
+		y.createSection(name);
+		
+		saveConfig("arenas.yml", y);
+	}
+	
+	public void removeArena(String name) {
+		YamlConfiguration y = getConfig("arenas.yml");
+		
+		if(y.contains(name)) {
+			y.set(name, null);
+		}
+		
+		saveConfig("arenas.yml", y);
+	}
 }
