@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 /**
  * A class for storing various statistics about the user
@@ -52,12 +53,13 @@ public class UserData {
 
 	}
 
-	private UUID	id;
-	private int		wins	= 0;
-	private int		losses	= 0;
+	private UUID		id;
+	private int			wins	= 0;
+	private int			losses	= 0;
 
-	private int		team	= -1;
-	private Arena	currentArena;
+	private int			team	= -1;
+	private Arena		currentArena;
+	private PlayerData	data;
 
 	public UserData(User user) {
 		id = user.getId();
@@ -158,6 +160,25 @@ public class UserData {
 
 	public int setTeam(int team) {
 		return this.team = team;
+	}
+
+	/**
+	 * @param player
+	 *            the player to store the data of
+	 */
+	public void store(Player player) {
+		data = new PlayerData(player);
+	}
+
+	/**
+	 * 
+	 * @param player
+	 *            the player to restore the data to
+	 */
+	public void restore(Player player) {
+		if (data == null) throw new IllegalStateException("No data was stored!");
+		data.restore(player);
+		data = null;
 	}
 
 }

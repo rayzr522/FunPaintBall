@@ -22,15 +22,20 @@ public class Minigame {
 	public Minigame(JavaPlugin plugin, String name) {
 
 		this.plugin = plugin;
+		// Initialize the ConfigManager
 		cm = new ConfigManager(plugin);
 
 		arenas = new ArrayList<>();
 
+		// Register listener. This is required for game logic
 		listener = new MinigameListener(this);
 		plugin.getServer().getPluginManager().registerEvents(listener, plugin);
 
 	}
 
+	/**
+	 * Load all config files related to the minigame
+	 */
 	public void load() {
 
 		YamlConfiguration arenaConfig = getConfig("arenas.yml");
@@ -45,6 +50,9 @@ public class Minigame {
 
 	}
 
+	/**
+	 * Save all config files related to the minigame
+	 */
 	public void save() {
 
 		YamlConfiguration arenaConfig = getConfig("arenas.yml");
@@ -60,6 +68,24 @@ public class Minigame {
 
 	}
 
+	/**
+	 * Force stops all arenas
+	 * 
+	 * @see Arena#forceStop()
+	 */
+	public void stop() {
+		for (Arena arena : arenas) {
+			arena.forceStop();
+		}
+	}
+
+	/**
+	 * Get an arena
+	 * 
+	 * @param name
+	 *            the name of the arena (non case-specific)
+	 * @return The arena, or {@code null} if no arena was found
+	 */
 	public Arena getArena(String name) {
 
 		for (Arena arena : arenas) {
@@ -73,7 +99,9 @@ public class Minigame {
 	 * Saves a config file
 	 * 
 	 * @param path
+	 *            the path to the config file
 	 * @param config
+	 *            the config file
 	 */
 	public void saveConfig(String path, YamlConfiguration config) {
 		try {
@@ -92,7 +120,10 @@ public class Minigame {
 	 * Gets a config file
 	 * 
 	 * @param path
-	 * @return
+	 *            the path to the config file
+	 * @return The config file (will be an empty config if there was no file at
+	 *         the given path)
+	 * 
 	 */
 	public YamlConfiguration getConfig(String path) {
 		return YamlConfiguration.loadConfiguration(getFile(path));
@@ -102,12 +133,22 @@ public class Minigame {
 	 * Gets a file
 	 * 
 	 * @param path
-	 * @return
+	 *            the path. This is relative to the data folder of the pluign.
+	 * @return The file
 	 */
 	public File getFile(String path) {
 		return new File(plugin.getDataFolder() + File.separator + path);
 	}
 
+	/**
+	 * Create an arena, add it to the arenas list, and return it for further
+	 * modification
+	 * 
+	 * @param name
+	 *            the name of the arena
+	 * @return The new arena, or {@code null} if an arena already existed under
+	 *         that name
+	 */
 	public Arena createArena(String name) {
 
 		if (getArena(name) != null) { return null; }
@@ -117,7 +158,30 @@ public class Minigame {
 		return arena;
 	}
 
+	/**
+	 * Removes an arena
+	 * 
+	 * @param arena
+	 *            the arena to remove
+	 * @return Whether or not the arena was removed. Will return false if the
+	 *         arena wasn't in the list of arenas.
+	 */
 	public boolean removeArena(Arena arena) {
+		return arenas.remove(arena);
+	}
+
+	/**
+	 * Alias of {@code removeArena(getArena(name))}
+	 * 
+	 * @param name
+	 *            the name of the arena
+	 * @return Whether or not the arena was removed. Will return false if the
+	 *         arena wasn't in the list of arenas or if there was no arena for
+	 *         the given name.
+	 */
+	public boolean removeArena(String name) {
+		Arena arena = getArena(name);
+		if (arena == null) { return false; }
 		return arenas.remove(arena);
 	}
 
@@ -125,7 +189,8 @@ public class Minigame {
 	 * Check if a location is within any arena
 	 * 
 	 * @param location
-	 * @return
+	 *            the location to check
+	 * @return Whether or not it's within any of the known arenas
 	 */
 	public boolean isInArena(Location location) {
 		for (Arena arena : arenas) {

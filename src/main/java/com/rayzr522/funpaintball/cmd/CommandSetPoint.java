@@ -9,7 +9,7 @@ import com.rayzr522.funpaintball.minigame.Minigame;
 import com.rayzr522.funpaintball.util.Msg;
 
 /**
- * The command for setting spawns
+ * The command for setting region points
  * 
  * @author Rayzr
  *

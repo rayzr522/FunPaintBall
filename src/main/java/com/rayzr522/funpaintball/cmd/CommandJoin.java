@@ -6,17 +6,17 @@ import com.rayzr522.funpaintball.minigame.Minigame;
 import com.rayzr522.funpaintball.util.Msg;
 
 /**
- * The command for creating maps
+ * The command for join
  * 
  * @author Rayzr
  *
  */
-public class CommandCreateMap extends CommandHandler {
+public class CommandJoin extends CommandHandler {
 
 	private Minigame mg;
 
-	public CommandCreateMap(Minigame mg) {
-		super(null, "createmap");
+	public CommandJoin(Minigame mg) {
+		super(null, "join");
 		this.mg = mg;
 	}
 
@@ -43,7 +43,7 @@ public class CommandCreateMap extends CommandHandler {
 
 	@Override
 	public String getDescription() {
-		return "Creates a map";
+		return "Joins the queue";
 	}
 
 	@Override

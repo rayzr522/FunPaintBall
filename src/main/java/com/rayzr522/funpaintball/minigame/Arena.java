@@ -15,11 +15,27 @@ import com.rayzr522.funpaintball.config.Serialized;
 
 public class Arena implements ISerializable {
 
+	/**
+	 * Indicates that the game is waiting for enough players to join before
+	 * starting
+	 */
 	public static final int			WAITING		= 0;
+	/**
+	 * Indicates that the game is about to start (countdown)
+	 */
 	public static final int			STARTING	= 1;
+	/**
+	 * Indicates that the game is running
+	 */
 	public static final int			RUNNING		= 2;
 
+	/**
+	 * The ID of the blue team
+	 */
 	public static final int			BLUE_TEAM	= 0;
+	/**
+	 * The ID of the red team
+	 */
 	public static final int			RED_TEAM	= 1;
 
 	@Serialized
@@ -51,15 +67,47 @@ public class Arena implements ISerializable {
 
 	protected boolean				valid;
 
+	/**
+	 * The current game state
+	 * 
+	 * @see Arena#WAITING
+	 * @see Arena#STARTING
+	 * @see Arena#RUNNING
+	 */
 	private int						state		= 0;
 
+	/**
+	 * All runnables that have been started with
+	 * {@link Arena#later(BukkitRunnable, double)}. Used for stopping all active
+	 * runnables when a match stops.
+	 */
 	private List<BukkitRunnable>	runnables	= new ArrayList<>();
 
+	/**
+	 * Used for choosing which team a person is on when the game starts.
+	 * Alternates each time someone joins.
+	 */
 	private boolean					blueTeam	= false;
 
+	/**
+	 * The score of the red team
+	 */
 	private int						scoreRed	= 0;
+	/**
+	 * The score of the blue team
+	 */
 	private int						scoreBlue	= 0;
 
+	/**
+	 * Initializes an Arena instance
+	 * 
+	 * @param name
+	 *            the name of the arena
+	 * @param minPlayers
+	 *            the minimum number of players for the arena
+	 * @param maxPlayers
+	 *            the maximum number of players for the arena
+	 */
 	public Arena(String name, int minPlayers, int maxPlayers) {
 
 		this.name = name;
@@ -68,6 +116,13 @@ public class Arena implements ISerializable {
 
 	}
 
+	/**
+	 * Uses the default number of minimum players and maximum players defined in
+	 * {@link Config}
+	 * 
+	 * @param name
+	 *            the name of the arena
+	 */
 	public Arena(String name) {
 		this(name, Config.DEFAULT_MINPLAYERS, Config.DEFAULT_MAXPLAYERS);
 	}
@@ -80,6 +135,13 @@ public class Arena implements ISerializable {
 	public void onPreSerialize() {
 	}
 
+	/**
+	 * Adds a user to the arena
+	 * 
+	 * @param user
+	 *            the player
+	 * @return Whether or not they were allowed to join
+	 */
 	public final boolean join(User user) {
 
 		if (!isValid()) { return false; }
@@ -92,6 +154,12 @@ public class Arena implements ISerializable {
 
 	}
 
+	/**
+	 * Removes a user from the arena
+	 * 
+	 * @param user
+	 *            the player
+	 */
 	public void leave(User user) {
 
 		if (users.remove(user)) {
@@ -123,12 +191,18 @@ public class Arena implements ISerializable {
 		}
 	}
 
+	/**
+	 * Starts the match
+	 */
 	public void start() {
 
 		onStart();
 
 	}
 
+	/**
+	 * Stops the match
+	 */
 	public void stop() {
 
 		onStop();
@@ -141,6 +215,17 @@ public class Arena implements ISerializable {
 				System.err.println("Failed to stop runnable!");
 				e.printStackTrace();
 			}
+		}
+
+	}
+
+	public void forceStop() {
+
+		for (User u : users) {
+
+			u.teleport(exit);
+			u.restoreData();
+
 		}
 
 	}
@@ -175,6 +260,12 @@ public class Arena implements ISerializable {
 
 	}
 
+	/**
+	 * Called when a user joins the match
+	 * 
+	 * @param user
+	 *            the user
+	 */
 	protected void onJoin(User user) {
 
 		broadcast("player-joined", user.getName(), users.size(), maxPlayers);
@@ -182,8 +273,18 @@ public class Arena implements ISerializable {
 		blueTeam = !blueTeam;
 		user.setTeam(blueTeam ? BLUE_TEAM : RED_TEAM);
 
+		user.storeData();
+		user.getPlayer().getInventory().clear();
+		user.teleport(lobbySpawn);
+
 	}
 
+	/**
+	 * Called when a user dies
+	 * 
+	 * @param user
+	 *            the user
+	 */
 	public void onDeath(User user) {
 		sendToDeathBox(user);
 		switch (user.getTeam()) {
@@ -198,6 +299,12 @@ public class Arena implements ISerializable {
 		}
 	}
 
+	/**
+	 * Announces to all players in the match that a point has been scored
+	 * 
+	 * @param team
+	 *            which team scored a point
+	 */
 	public void anouncePoint(int team) {
 		switch (team) {
 		case BLUE_TEAM:
@@ -209,12 +316,27 @@ public class Arena implements ISerializable {
 		}
 	}
 
-	protected void broadcast(String msg, Object... objects) {
+	/**
+	 * Broadcast a message to all players in this arena
+	 * 
+	 * @param msg
+	 *            the key of the message to send
+	 * @param objects
+	 *            the values to insert into the message
+	 */
+	public void broadcast(String msg, Object... objects) {
 		for (User u : users) {
 			u.send(msg, objects);
 		}
 	}
 
+	/**
+	 * Sends a {@link User} to the death box for {@link Config#WAIT_DEATH}
+	 * seconds
+	 * 
+	 * @param user
+	 *            the player
+	 */
 	public void sendToDeathBox(User user) {
 		user.teleport(deathBoxSpawn);
 		later(new BukkitRunnable() {
@@ -465,6 +587,13 @@ public class Arena implements ISerializable {
 		runnables.add(runnable);
 	}
 
+	/**
+	 * Checks whether a location is within any of the regions of this arena
+	 * 
+	 * @param location
+	 *            the location to check
+	 * @return Whether or not the location is within any of the regions
+	 */
 	public boolean isInArena(Location location) {
 		return arenaRegion.inRegion(location) || lobbyRegion.inRegion(location) || deathBox.inRegion(location);
 	}

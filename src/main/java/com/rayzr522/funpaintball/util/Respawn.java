@@ -48,6 +48,16 @@ public class Respawn {
 
 	}
 
+	/**
+	 * Attempts to automatically respawn the player. This will not work if the
+	 * static setup failed. You can tell if it failed or not by the presence of
+	 * {@code "Failed to load Respawn utility!"} in the console.
+	 * 
+	 * @param who
+	 *            the player
+	 * @throws ReflectiveOperationException
+	 *             If something failed with the reflection
+	 */
 	public static void autoRespawnPlayer(Player who) throws ReflectiveOperationException {
 
 		if (!SET_UP) {

@@ -7,7 +7,7 @@ import com.rayzr522.funpaintball.minigame.Minigame;
 import com.rayzr522.funpaintball.util.Msg;
 
 /**
- * The command for setting spawns
+ * The command for deleting maps
  * 
  * @author Rayzr
  *

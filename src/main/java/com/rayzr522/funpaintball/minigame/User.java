@@ -268,4 +268,18 @@ public class User {
 		return data.getTeam();
 	}
 
+	/**
+	 * Stores the player's data
+	 */
+	public void storeData() {
+		data.store(player);
+	}
+
+	/**
+	 * Restores the player's data
+	 */
+	public void restoreData() {
+		data.restore(player);
+	}
+
 }

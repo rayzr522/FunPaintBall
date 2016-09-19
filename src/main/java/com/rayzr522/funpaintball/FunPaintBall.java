@@ -19,16 +19,30 @@ import com.rayzr522.funpaintball.util.Msg;
  * The main class of the FunPaintBall plugin
  * 
  * @author Rayzr
+ * 
+ * @see Minigame
  *
  */
 public class FunPaintBall extends JavaPlugin {
 
+	/**
+	 * The instance of this plugin
+	 */
 	public static FunPaintBall	INSTANCE;
 
+	/**
+	 * The logger
+	 */
 	private Logger				logger;
 
+	/**
+	 * The root command for this plugin
+	 */
 	private CommandHandler		root;
 
+	/**
+	 * The minigame instance for this plugin
+	 */
 	private Minigame			mg;
 
 	@Override
@@ -50,8 +64,10 @@ public class FunPaintBall extends JavaPlugin {
 			Bukkit.getPluginManager().disablePlugin(this);
 		}
 
+		// Initialize the minigame
 		mg = new Minigame(this, "FunPaintBall");
 
+		// Load all config files
 		load();
 
 		// Register the commands
@@ -65,11 +81,17 @@ public class FunPaintBall extends JavaPlugin {
 	@Override
 	public void onDisable() {
 
+		// Force stop all matches
+		mg.stop();
+
 		save();
 		info(versionText() + " disabled");
 
 	}
 
+	/**
+	 * Load all config files
+	 */
 	public void load() {
 
 		// Load all messages from the config file
@@ -83,6 +105,9 @@ public class FunPaintBall extends JavaPlugin {
 
 	}
 
+	/**
+	 * Save all config files
+	 */
 	public void save() {
 
 		// Save the minigame
@@ -90,14 +115,30 @@ public class FunPaintBall extends JavaPlugin {
 
 	}
 
+	/**
+	 * Alias of {@link Logger#info(String)}
+	 * 
+	 * @param msg
+	 *            the message
+	 */
 	public void info(String msg) {
 		logger.info(msg);
 	}
 
+	/**
+	 * Alias of {@link Logger#warning(String)}
+	 * 
+	 * @param msg
+	 *            the message
+	 */
 	public void warn(String msg) {
 		logger.warning(msg);
 	}
 
+	/**
+	 * 
+	 * @return The version text in the format of {@code <name> v<version>}
+	 */
 	public String versionText() {
 		return getName() + " v" + getDescription().getVersion();
 	}
