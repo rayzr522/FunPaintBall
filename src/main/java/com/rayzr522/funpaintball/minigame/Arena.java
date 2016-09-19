@@ -200,4 +200,124 @@ public class Arena implements ISerializable {
 		return state;
 	}
 
+	/**
+	 * @return the deathBox
+	 */
+	public Region getDeathBox() {
+		return deathBox;
+	}
+
+	/**
+	 * @param deathBox
+	 *            the deathBox to set
+	 */
+	public void setDeathBox(Region deathBox) {
+		this.deathBox = deathBox;
+	}
+
+	/**
+	 * @return the arenaBlueSpawn
+	 */
+	public Location getArenaBlueSpawn() {
+		return arenaBlueSpawn;
+	}
+
+	/**
+	 * @param arenaBlueSpawn
+	 *            the arenaBlueSpawn to set
+	 */
+	public void setArenaBlueSpawn(Location arenaBlueSpawn) {
+		this.arenaBlueSpawn = arenaBlueSpawn;
+	}
+
+	/**
+	 * @return the arenaRedSpawn
+	 */
+	public Location getArenaRedSpawn() {
+		return arenaRedSpawn;
+	}
+
+	/**
+	 * @param arenaRedSpawn
+	 *            the arenaRedSpawn to set
+	 */
+	public void setArenaRedSpawn(Location arenaRedSpawn) {
+		this.arenaRedSpawn = arenaRedSpawn;
+	}
+
+	/**
+	 * @return the lobbySpawn
+	 */
+	public Location getLobbySpawn() {
+		return lobbySpawn;
+	}
+
+	/**
+	 * @param lobbySpawn
+	 *            the lobbySpawn to set
+	 */
+	public void setLobbySpawn(Location lobbySpawn) {
+		this.lobbySpawn = lobbySpawn;
+	}
+
+	/**
+	 * @return the deathBoxSpawn
+	 */
+	public Location getDeathBoxSpawn() {
+		return deathBoxSpawn;
+	}
+
+	/**
+	 * @param deathBoxSpawn
+	 *            the deathBoxSpawn to set
+	 */
+	public void setDeathBoxSpawn(Location deathBoxSpawn) {
+		this.deathBoxSpawn = deathBoxSpawn;
+	}
+
+	/**
+	 * @return the exit
+	 */
+	public Location getExit() {
+		return exit;
+	}
+
+	/**
+	 * @param exit
+	 *            the exit to set
+	 */
+	public void setExit(Location exit) {
+		this.exit = exit;
+	}
+
+	/**
+	 * @return the users
+	 */
+	public List<User> getUsers() {
+		return users;
+	}
+
+	/**
+	 * @param users
+	 *            the users to set
+	 */
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
+	/**
+	 * @return the state
+	 */
+	public int getState() {
+		return state;
+	}
+
+	/**
+	 * @param state
+	 *            the state to set
+	 */
+	public void setState(int state) {
+		this.state = state;
+	}
+
 }

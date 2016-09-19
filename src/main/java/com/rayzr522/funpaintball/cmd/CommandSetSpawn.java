@@ -35,42 +35,51 @@ public class CommandSetSpawn extends CommandHandler {
 		Arena arena = mg.getArena(arenaName);
 		if (arena == null) {
 			msg("no-such-arena", arenaName);
+			return false;
 		}
 
 		String point = args[0].toLowerCase();
-		switch (point) {
 
+		switch (point) {
 		case "blue":
+			arena.setArenaBlueSpawn(player.getLocation());
 			break;
 		case "red":
+			arena.setArenaRedSpawn(player.getLocation());
 			break;
 		case "lobby":
+			arena.setLobbySpawn(player.getLocation());
 			break;
 		case "exit":
+			arena.setExit(player.getLocation());
 			break;
 		case "death":
+			arena.setDeathBoxSpawn(player.getLocation());
 			break;
 		default:
 			msg("valid-spawns", "blue, red, lobby, exit, death");
 			return false;
 		}
 
+		msg("spawn-set", point);
+
 		return true;
+
 	}
 
 	@Override
 	public String getPermission() {
-		return "fpb.user";
+		return "fpb.admin";
 	}
 
 	@Override
 	public String getDescription() {
-		return "The base command of FunPaintBall";
+		return "Sets one of the various spawns for an arena";
 	}
 
 	@Override
 	public String getUsage() {
-		return getCommandTree() + " [cmd]";
+		return getCommandTree() + " <type> [arena]";
 	}
 
 }

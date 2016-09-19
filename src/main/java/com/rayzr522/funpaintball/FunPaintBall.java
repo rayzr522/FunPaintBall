@@ -21,7 +21,7 @@ import com.rayzr522.funpaintball.util.Msg;
 public class FunPaintBall extends JavaPlugin {
 
 	private Logger			logger;
-	@SuppressWarnings("unused")
+
 	private CommandHandler	root;
 
 	private Minigame		mg;
