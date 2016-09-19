@@ -117,8 +117,8 @@ public class Minigame {
 		return arena;
 	}
 
-	public void removeArena(Arena arena) {
-		arenas.remove(arena);
+	public boolean removeArena(Arena arena) {
+		return arenas.remove(arena);
 	}
 
 	/**

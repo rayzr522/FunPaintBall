@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.rayzr522.funpaintball.cmd.CommandCreateMap;
+import com.rayzr522.funpaintball.cmd.CommandDeleteMap;
 import com.rayzr522.funpaintball.cmd.CommandFPB;
 import com.rayzr522.funpaintball.cmd.CommandSetPoint;
 import com.rayzr522.funpaintball.cmd.CommandSetSpawn;
@@ -109,6 +111,8 @@ public class FunPaintBall extends JavaPlugin {
 		root = new CommandFPB(this);
 		root.addChild(new CommandSetSpawn(mg));
 		root.addChild(new CommandSetPoint(mg));
+		root.addChild(new CommandCreateMap(mg));
+		root.addChild(new CommandDeleteMap(mg));
 
 	}
 
