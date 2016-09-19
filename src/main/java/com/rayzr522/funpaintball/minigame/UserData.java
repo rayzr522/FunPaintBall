@@ -55,6 +55,7 @@ public class UserData {
 	private UUID	id;
 	private int		wins	= 0;
 	private int		losses	= 0;
+	private Arena	currentArena;
 
 	public UserData(User user) {
 		id = user.getId();
@@ -132,6 +133,21 @@ public class UserData {
 	 */
 	public UUID getId() {
 		return id;
+	}
+
+	/**
+	 * @return the currentArena
+	 */
+	public Arena getCurrentArena() {
+		return currentArena;
+	}
+
+	/**
+	 * @param currentArena
+	 *            the currentArena to set
+	 */
+	public void setCurrentArena(Arena currentArena) {
+		this.currentArena = currentArena;
 	}
 
 }

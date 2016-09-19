@@ -7,6 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.rayzr522.funpaintball.cmd.CommandFPB;
+import com.rayzr522.funpaintball.cmd.CommandSetSpawn;
+import com.rayzr522.funpaintball.minigame.Minigame;
 import com.rayzr522.funpaintball.util.Configuration;
 import com.rayzr522.funpaintball.util.Msg;
 
@@ -21,6 +23,8 @@ public class FunPaintBall extends JavaPlugin {
 	private Logger			logger;
 	@SuppressWarnings("unused")
 	private CommandHandler	root;
+
+	private Minigame		mg;
 
 	@Override
 	public void onEnable() {
@@ -38,6 +42,8 @@ public class FunPaintBall extends JavaPlugin {
 			warn("Goodbye cruel world...");
 			Bukkit.getPluginManager().disablePlugin(this);
 		}
+
+		mg = new Minigame(this, "FunPaintBall");
 
 		load();
 
@@ -65,9 +71,15 @@ public class FunPaintBall extends JavaPlugin {
 		// Load the config file itself
 		Config.load();
 
+		// Load the minigame
+		mg.load();
+
 	}
 
 	public void save() {
+
+		// Save the minigame
+		mg.save();
 
 	}
 
@@ -88,7 +100,9 @@ public class FunPaintBall extends JavaPlugin {
 	 * Registers all the commands
 	 */
 	private void registerCommands() {
+
 		root = new CommandFPB(this);
+		root.addChild(new CommandSetSpawn(mg));
 
 	}
 

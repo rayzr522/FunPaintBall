@@ -4,6 +4,7 @@ package com.rayzr522.funpaintball.minigame;
 import java.util.UUID;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -33,7 +34,22 @@ public class User {
 	 */
 	public boolean join(Arena arena) {
 
-		return arena.join(this);
+		if (data.getCurrentArena() != null) { return false; }
+
+		if (!arena.join(this)) { return false; }
+
+		data.setCurrentArena(arena);
+
+		return true;
+
+	}
+
+	public void leave() {
+
+		if (data.getCurrentArena() != null) {
+			data.getCurrentArena().leave(this);
+			data.setCurrentArena(null);
+		}
 
 	}
 
@@ -81,7 +97,7 @@ public class User {
 	 * @see org.bukkit.entity.HumanEntity#getItemInHand()
 	 */
 	public ItemStack getItemInHand() {
-		return getInventory().getItemInMainHand();
+		return player.getItemInHand();
 	}
 
 	/**
@@ -114,6 +130,26 @@ public class User {
 	 */
 	public Vector getVelocity() {
 		return player.getVelocity();
+	}
+
+	/**
+	 * @param ent
+	 *            the entity to teleport to
+	 * @return
+	 * @see org.bukkit.entity.Entity#teleport(org.bukkit.entity.Entity)
+	 */
+	public boolean teleport(Entity ent) {
+		return player.teleport(ent);
+	}
+
+	/**
+	 * @param loc
+	 *            the location to teleport to
+	 * @return
+	 * @see org.bukkit.entity.Entity#teleport(org.bukkit.Location)
+	 */
+	public boolean teleport(Location loc) {
+		return player.teleport(loc);
 	}
 
 	/**
@@ -162,6 +198,29 @@ public class User {
 	 */
 	public int incrLosses() {
 		return data.incrLosses();
+	}
+
+	/**
+	 * @return the currentArena
+	 */
+	public Arena getCurrentArena() {
+		return data.getCurrentArena();
+	}
+
+	/**
+	 * @param currentArena
+	 *            the currentArena to set
+	 */
+	public void setCurrentArena(Arena currentArena) {
+		data.setCurrentArena(currentArena);
+	}
+
+	/**
+	 * @param player
+	 *            the player to set
+	 */
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
 }

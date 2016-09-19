@@ -80,4 +80,22 @@ public class Region implements ISerializable {
 		this.max = max;
 	}
 
+	/**
+	 * @param min
+	 *            the min to set
+	 */
+	public void setMin(Location min) {
+		this.min = min.toVector();
+		this.world = min.getWorld();
+	}
+
+	/**
+	 * @param max
+	 *            the max to set
+	 */
+	public void setMax(Location max) {
+		this.max = max.toVector();
+		this.world = max.getWorld();
+	}
+
 }

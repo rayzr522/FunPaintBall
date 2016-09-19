@@ -36,6 +36,8 @@ public class Arena implements ISerializable {
 	protected Location		lobbySpawn;
 	@Serialized
 	protected Location		deathBoxSpawn;
+	@Serialized
+	protected Location		exit;
 
 	protected List<User>	users;
 
@@ -61,11 +63,39 @@ public class Arena implements ISerializable {
 
 	public final boolean join(User user) {
 
+		if (!isValid()) { return false; }
 		if (users.contains(user)) { return false; }
+
 		users.add(user);
 		onJoin(user);
 		return true;
 
+	}
+
+	public void leave(User user) {
+
+		if (users.remove(user)) {
+			user.teleport(exit);
+		}
+
+	}
+
+	public void switchState(int state) {
+		// int oldState = this.state;
+		this.state = state;
+
+		if (state == 1) {
+
+			boolean team = false;
+
+			for (User user : users) {
+
+				team = !team;
+				user.teleport(team ? arenaBlueSpawn : arenaRedSpawn);
+
+			}
+
+		}
 	}
 
 	protected void onJoin(User user) {
@@ -158,7 +188,7 @@ public class Arena implements ISerializable {
 	 * @return
 	 */
 	public boolean isValid() {
-		return !(arenaRegion == null || lobbyRegion == null || deathBox == null || arenaBlueSpawn == null || arenaRedSpawn == null || lobbySpawn == null || deathBoxSpawn == null);
+		return valid = !(arenaRegion == null || lobbyRegion == null || deathBox == null || arenaBlueSpawn == null || arenaRedSpawn == null || lobbySpawn == null || deathBoxSpawn == null || exit == null);
 	}
 
 	/**
