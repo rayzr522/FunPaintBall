@@ -1,7 +1,21 @@
+
+usage:
+    fpb: "/fpb [cmd]"
+    setspawn: "/fpb setspawn <type> [map]"
+    setpoint: "/fpb setpoint <type> [map]"
+
 plugin-info: "&aThis server is running &e{0}"
 command-help: "&8» &2{0} &8| &a{1}"
 valid-spawns: "&aThe valid spawn types are: &e{0}"
+valid-points: "&aThe valid region point types are: &e{0}"
 
 no-permission: "&cYou don't have permission to do that!"
 only-players: "&cOnly players can use that commmand"
-no-such-arena: "&cThe arena '{0}' does not exist!"
+no-such-map: "&cThe arena '{0}' does not exist!"
+
+spawn-set: "&aThe &e{0}&a spawn was set"
+point-set: "&aThe &e{0}&a region point was set"
+
+player-joined: "&e{0}&a has joined the game &e({1}/{2})"
+point-scored: "&e{0}&a team scored a point! The score is now:\n&e{1}&a to &e{2}&a"
+team-won: "&e{0}&a team won!"

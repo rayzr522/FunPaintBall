@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,9 +13,11 @@ import com.rayzr522.funpaintball.config.ConfigManager;
 
 public class Minigame {
 
-	private JavaPlugin		plugin;
-	private ConfigManager	cm;
-	private List<Arena>		arenas;
+	private JavaPlugin			plugin;
+	private ConfigManager		cm;
+	private List<Arena>			arenas;
+
+	private MinigameListener	listener;
 
 	public Minigame(JavaPlugin plugin, String name) {
 
@@ -22,6 +25,9 @@ public class Minigame {
 		cm = new ConfigManager(plugin);
 
 		arenas = new ArrayList<>();
+
+		listener = new MinigameListener(this);
+		plugin.getServer().getPluginManager().registerEvents(listener, plugin);
 
 	}
 
@@ -101,22 +107,30 @@ public class Minigame {
 	public File getFile(String path) {
 		return new File(plugin.getDataFolder() + File.separator + path);
 	}
-	
-	public void createArena(String name) {
-		YamlConfiguration y = getConfig("arenas.yml");
-		
-		y.createSection(name);
-		
-		saveConfig("arenas.yml", y);
+
+	public Arena createArena(String name) {
+
+		if (getArena(name) != null) { return null; }
+
+		Arena arena = new Arena(name);
+		arenas.add(arena);
+		return arena;
 	}
-	
-	public void removeArena(String name) {
-		YamlConfiguration y = getConfig("arenas.yml");
-		
-		if(y.contains(name)) {
-			y.set(name, null);
+
+	public void removeArena(Arena arena) {
+		arenas.remove(arena);
+	}
+
+	/**
+	 * Check if a location is within any arena
+	 * 
+	 * @param location
+	 * @return
+	 */
+	public boolean isInArena(Location location) {
+		for (Arena arena : arenas) {
+			if (arena.isInArena(location)) { return true; }
 		}
-		
-		saveConfig("arenas.yml", y);
+		return false;
 	}
 }

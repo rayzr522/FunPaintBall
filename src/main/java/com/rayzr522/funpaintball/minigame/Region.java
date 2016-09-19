@@ -17,10 +17,18 @@ public class Region implements ISerializable {
 	@Serialized
 	private Vector	max;
 
+	/**
+	 * Only use this for creating partial or unfinished regions
+	 */
+	public Region() {
+
+	}
+
 	public Region(Vector min, Vector max, World world) {
 		this.world = world;
-		this.min = Vector.getMinimum(min, max);
-		this.max = Vector.getMaximum(min, max);
+		this.min = min;
+		this.max = max;
+		evaluate();
 	}
 
 	public Region(Location min, Location max) {
@@ -87,6 +95,7 @@ public class Region implements ISerializable {
 	public void setMin(Location min) {
 		this.min = min.toVector();
 		this.world = min.getWorld();
+		evaluate();
 	}
 
 	/**
@@ -96,6 +105,39 @@ public class Region implements ISerializable {
 	public void setMax(Location max) {
 		this.max = max.toVector();
 		this.world = max.getWorld();
+		evaluate();
+	}
+
+	/**
+	 * Re-evaluate which point is the minimum and which point is the maximum
+	 */
+	private void evaluate() {
+
+		Vector oldMin = min;
+		Vector oldMax = max;
+
+		min = Vector.getMinimum(oldMin, oldMax);
+		max = Vector.getMaximum(oldMin, oldMax);
+
+	}
+
+	/**
+	 * Check whether this region is fully setup
+	 * 
+	 * @return
+	 */
+	public boolean isValid() {
+		return !(min == null || max == null || world == null);
+	}
+
+	public boolean inRegion(Location loc) {
+
+		if (loc.getWorld() != world) { return false; }
+		double x = loc.getX();
+		double y = loc.getY();
+		double z = loc.getZ();
+		return x >= min.getX() && x <= max.getX() && y >= min.getY() && y <= max.getY() && z >= min.getZ() && z <= max.getZ();
+
 	}
 
 }

@@ -10,6 +10,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
 
+import com.rayzr522.funpaintball.util.Msg;
+import com.rayzr522.funpaintball.util.TextUtils;
+
 public class User {
 
 	private Player		player;
@@ -221,6 +224,48 @@ public class User {
 	 */
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+
+	/**
+	 * Send a message to the player
+	 * 
+	 * @param key
+	 *            the key of the message. See {@link Msg}
+	 * @param strings
+	 *            the strings to replace with
+	 * 
+	 * @see Msg#send(Player, String, String...)
+	 */
+	public void send(String key, Object... strings) {
+		Msg.send(player, key, strings);
+	}
+
+	/**
+	 * @param msg
+	 *            the message to send
+	 * @see Player#sendMessage(String)
+	 */
+	public void sendMessage(String msg) {
+		player.sendMessage(TextUtils.colorize(msg));
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof User) {
+			return ((User) obj).getPlayer().equals(player);
+		} else if (obj instanceof Player) {
+			return ((Player) obj).equals(player);
+		} else {
+			return super.equals(obj);
+		}
+	}
+
+	public void setTeam(int team) {
+		data.setTeam(team);
+	}
+
+	public int getTeam() {
+		return data.getTeam();
 	}
 
 }

@@ -55,6 +55,8 @@ public class UserData {
 	private UUID	id;
 	private int		wins	= 0;
 	private int		losses	= 0;
+
+	private int		team	= -1;
 	private Arena	currentArena;
 
 	public UserData(User user) {
@@ -148,6 +150,14 @@ public class UserData {
 	 */
 	public void setCurrentArena(Arena currentArena) {
 		this.currentArena = currentArena;
+	}
+
+	public int getTeam() {
+		return team;
+	}
+
+	public int setTeam(int team) {
+		return this.team = team;
 	}
 
 }

@@ -117,18 +117,14 @@ public class Msg {
 	 *            the player
 	 * @param key
 	 *            the message key
-	 * @param strings
+	 * @param objects
 	 *            the strings to use for replacement
 	 * 
 	 * @see Msg#get(String)
 	 */
-	public static void send(Player p, String key, String... strings) {
+	public static void send(Player p, String key, Object... objects) {
 
-		String msg = get(key);
-
-		for (int i = 0; i < strings.length; i++) {
-			msg = msg.replace("{" + i + "}", strings[i]);
-		}
+		String msg[] = get(key, objects).split("\n");
 
 		p.sendMessage(msg);
 
@@ -141,16 +137,29 @@ public class Msg {
 	 * @param key
 	 * @param strings
 	 */
-	public static void send(CommandSender sender, String key, String... strings) {
+	public static void send(CommandSender sender, String key, Object... objects) {
 
-		String msg = get(key);
-
-		for (int i = 0; i < strings.length; i++) {
-			msg = msg.replace("{" + i + "}", strings[i]);
-		}
+		String msg[] = get(key, objects).split("\n");
 
 		sender.sendMessage(msg);
 
+	}
+
+	/**
+	 * Replaces all variable placeholders in the message with the given objects
+	 * 
+	 * @param message
+	 *            the message string (not the message key)
+	 * @param objects
+	 *            the objects to replace with
+	 * @return The string with all replacements
+	 */
+	public static String replace(String message, Object... objects) {
+		String out = "" + message;
+		for (int i = 0; i < objects.length; i++) {
+			out = out.replace("{" + i + "}", objects[i].toString());
+		}
+		return out;
 	}
 
 	/**
@@ -166,6 +175,25 @@ public class Msg {
 
 		return messages.containsKey(key) ? TextUtils.colorize(messages.get(key)) : key;
 
+	}
+
+	/**
+	 * Get the message for the given key and replace all variable placeholders.
+	 * This translates color codes automatically. This is equivalent to calling
+	 * <code>replace(get(key), objects))</code>
+	 * 
+	 * @param key
+	 *            the message's key
+	 * @param objects
+	 *            the objects to replace with
+	 * @return The message, or the key itself if no messages is found with that
+	 *         key
+	 * 
+	 * @see Msg#get(String)
+	 * @see Msg#replace(String, Object...)
+	 */
+	public static String get(String key, Object... objects) {
+		return replace(get(key), objects);
 	}
 
 }

@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.rayzr522.funpaintball.cmd.CommandFPB;
+import com.rayzr522.funpaintball.cmd.CommandSetPoint;
 import com.rayzr522.funpaintball.cmd.CommandSetSpawn;
 import com.rayzr522.funpaintball.minigame.Minigame;
 import com.rayzr522.funpaintball.util.Configuration;
@@ -20,14 +21,18 @@ import com.rayzr522.funpaintball.util.Msg;
  */
 public class FunPaintBall extends JavaPlugin {
 
-	private Logger			logger;
+	public static FunPaintBall	INSTANCE;
 
-	private CommandHandler	root;
+	private Logger				logger;
 
-	private Minigame		mg;
+	private CommandHandler		root;
+
+	private Minigame			mg;
 
 	@Override
 	public void onEnable() {
+
+		INSTANCE = this;
 
 		// Get the logger
 		logger = getLogger();
@@ -103,6 +108,7 @@ public class FunPaintBall extends JavaPlugin {
 
 		root = new CommandFPB(this);
 		root.addChild(new CommandSetSpawn(mg));
+		root.addChild(new CommandSetPoint(mg));
 
 	}
 

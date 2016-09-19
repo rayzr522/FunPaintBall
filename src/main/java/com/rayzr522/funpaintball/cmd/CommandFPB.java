@@ -3,6 +3,7 @@ package com.rayzr522.funpaintball.cmd;
 
 import com.rayzr522.funpaintball.CommandHandler;
 import com.rayzr522.funpaintball.FunPaintBall;
+import com.rayzr522.funpaintball.util.Msg;
 
 /**
  * The root command for FunPaintBall
@@ -37,7 +38,7 @@ public class CommandFPB extends CommandHandler {
 
 	@Override
 	public String getUsage() {
-		return getCommandTree() + " [cmd]";
+		return Msg.get("usage.fpb");
 	}
 
 }

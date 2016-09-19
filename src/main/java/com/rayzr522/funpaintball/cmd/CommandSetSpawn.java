@@ -4,6 +4,7 @@ package com.rayzr522.funpaintball.cmd;
 import com.rayzr522.funpaintball.CommandHandler;
 import com.rayzr522.funpaintball.minigame.Arena;
 import com.rayzr522.funpaintball.minigame.Minigame;
+import com.rayzr522.funpaintball.util.Msg;
 
 /**
  * The command for setting spawns
@@ -16,16 +17,14 @@ public class CommandSetSpawn extends CommandHandler {
 	private Minigame mg;
 
 	public CommandSetSpawn(Minigame mg) {
-		super(null, "fpb");
+		super(null, "setspawn");
 		this.mg = mg;
 	}
 
 	@Override
 	public boolean commandExecuted(String[] args) {
 
-		if (args.length < 1) {
-			msg("usage.setspawn");
-		}
+		if (args.length < 1) { return false; }
 
 		String arenaName = "default";
 		if (args.length > 1) {
@@ -34,7 +33,7 @@ public class CommandSetSpawn extends CommandHandler {
 
 		Arena arena = mg.getArena(arenaName);
 		if (arena == null) {
-			msg("no-such-arena", arenaName);
+			msg("no-such-map", arenaName);
 			return false;
 		}
 
@@ -79,7 +78,7 @@ public class CommandSetSpawn extends CommandHandler {
 
 	@Override
 	public String getUsage() {
-		return getCommandTree() + " <type> [arena]";
+		return Msg.get("usage.setspawn");
 	}
 
 }
