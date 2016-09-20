@@ -295,7 +295,7 @@ public abstract class CommandHandler implements CommandExecutor {
 	 *            the strings to replace with
 	 */
 
-	protected void msg(String key, String... strings) {
+	protected void msg(String key, Object... strings) {
 		if (player == null) { throw new IllegalStateException("Must be used from within CommandHandler.commandExecuted!"); }
 		Msg.send(player, key, strings);
 	}

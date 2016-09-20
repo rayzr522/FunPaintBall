@@ -2,7 +2,6 @@
 package com.rayzr522.funpaintball.cmd;
 
 import com.rayzr522.funpaintball.CommandHandler;
-import com.rayzr522.funpaintball.minigame.Arena;
 import com.rayzr522.funpaintball.minigame.Minigame;
 import com.rayzr522.funpaintball.minigame.User;
 import com.rayzr522.funpaintball.util.Msg;
@@ -13,29 +12,23 @@ import com.rayzr522.funpaintball.util.Msg;
  * @author Rayzr
  *
  */
-public class CommandJoin extends CommandHandler {
+public class CommandLeave extends CommandHandler {
 
+	@SuppressWarnings("unused")
 	private Minigame mg;
 
-	public CommandJoin(Minigame mg) {
-		super(null, "join");
+	public CommandLeave(Minigame mg) {
+		super(null, "leave");
 		this.mg = mg;
 	}
 
 	@Override
 	public boolean commandExecuted(String[] args) {
 
-		if (args.length < 1) { return false; }
-
-		Arena arena = mg.getArena(args[0]);
-		if (arena == null) {
-			msg("no-such-map", args[0]);
-			return false;
-		}
-
-		msg("joining", args[0]);
-		if (!new User(player).join(arena)) {
-			msg("failed-to-join", args[0]);
+		if (!new User(player).leave()) {
+			msg("left", args[0]);
+		} else {
+			msg("not-in-map");
 		}
 
 		return true;
@@ -49,12 +42,12 @@ public class CommandJoin extends CommandHandler {
 
 	@Override
 	public String getDescription() {
-		return "Joins the queue";
+		return "Leaves the queue";
 	}
 
 	@Override
 	public String getUsage() {
-		return Msg.get("usage.join");
+		return Msg.get("usage.leave");
 	}
 
 }

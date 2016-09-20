@@ -45,12 +45,12 @@ public class CommandDeleteMap extends CommandHandler {
 
 	@Override
 	public String getDescription() {
-		return "Creates a map";
+		return "Deletes a map";
 	}
 
 	@Override
 	public String getUsage() {
-		return Msg.get("usage.createmap");
+		return Msg.get("usage.deletemap");
 	}
 
 }

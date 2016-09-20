@@ -47,12 +47,14 @@ public class User {
 
 	}
 
-	public void leave() {
+	public boolean leave() {
 
 		if (data.getCurrentArena() != null) {
 			data.getCurrentArena().leave(this);
 			data.setCurrentArena(null);
+			return true;
 		}
+		return false;
 
 	}
 
