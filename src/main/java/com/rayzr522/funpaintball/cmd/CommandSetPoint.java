@@ -26,9 +26,7 @@ public class CommandSetPoint extends CommandHandler {
 	@Override
 	public boolean commandExecuted(String[] args) {
 
-		if (args.length < 1) {
-			msg("usage.setpoint");
-		}
+		if (args.length < 1) { return false; }
 
 		String arenaName = "default";
 		if (args.length > 1) {

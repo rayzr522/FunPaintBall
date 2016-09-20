@@ -6,4 +6,4 @@ author: [Rayzr522]
 commands:
   funpaintball:
     description: "FunPaintBall command"
-    aliases: fpb, paintball, pb
+    aliases: [fpb,paintball,pb]

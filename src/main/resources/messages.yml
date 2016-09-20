@@ -30,3 +30,6 @@ player-joined: "&e{0}&a has joined the game &e({1}/{2})"
 point-scored: "&e{0}&a team scored a point! The score is now:\n&e{1}&a to &e{2}&a"
 team-won: "&e{0}&a team won!"
 left: "&aLeft &e{0}"
+
+match-started: "&aThe match has started"
+starting-in: "&aThe match is starting in &e{0}&a seconds"

@@ -4,6 +4,7 @@ package com.rayzr522.funpaintball.minigame;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -46,11 +47,11 @@ public class Arena implements ISerializable {
 	protected int					maxPlayers	= 20;
 
 	@Serialized
-	protected Region				arenaRegion;
+	protected Region				arenaRegion	= new Region();
 	@Serialized
-	protected Region				lobbyRegion;
+	protected Region				lobbyRegion	= new Region();
 	@Serialized
-	protected Region				deathBox;
+	protected Region				deathBox	= new Region();
 
 	@Serialized
 	protected Location				arenaBlueSpawn;
@@ -63,7 +64,7 @@ public class Arena implements ISerializable {
 	@Serialized
 	protected Location				exit;
 
-	protected List<User>			users;
+	protected List<User>			users		= new ArrayList<>();
 
 	protected boolean				valid;
 
@@ -97,6 +98,10 @@ public class Arena implements ISerializable {
 	 * The score of the blue team
 	 */
 	private int						scoreBlue	= 0;
+
+	public Arena() {
+		this("default");
+	}
 
 	/**
 	 * Initializes an Arena instance
@@ -165,6 +170,7 @@ public class Arena implements ISerializable {
 		if (users.remove(user)) {
 			user.teleport(exit);
 			user.setTeam(-1);
+			user.restoreData();
 		}
 
 	}
@@ -173,18 +179,44 @@ public class Arena implements ISerializable {
 		// int oldState = this.state;
 		this.state = state;
 
-		if (state == 0) {
+		for (BukkitRunnable runnable : runnables) {
+			try {
+				runnable.cancel();
+			} catch (IllegalStateException e) {
+
+			} catch (Exception e) {
+				System.err.println("Failed to stop runnable!");
+				e.printStackTrace();
+			}
+		}
+
+		if (state == WAITING) {
 			stop();
-		} else if (state == 1) {
+		} else if (state == STARTING) {
+
+			for (int i = 1; i <= 5; i++) {
+
+				final int time = i;
+
+				later(new BukkitRunnable() {
+
+					public void run() {
+						broadcast("starting-in", time);
+					};
+				}, Config.WAIT_START - time);
+
+			}
 
 			later(new BukkitRunnable() {
 
 				@Override
 				public void run() {
+					switchState(RUNNING);
 				}
+
 			}, Config.WAIT_START);
 
-		} else if (state == 2) {
+		} else if (state == RUNNING) {
 
 			start();
 
@@ -206,16 +238,6 @@ public class Arena implements ISerializable {
 	public void stop() {
 
 		onStop();
-		for (BukkitRunnable runnable : runnables) {
-			try {
-				runnable.cancel();
-			} catch (IllegalStateException e) {
-
-			} catch (Exception e) {
-				System.err.println("Failed to stop runnable!");
-				e.printStackTrace();
-			}
-		}
 
 	}
 
@@ -231,6 +253,14 @@ public class Arena implements ISerializable {
 	}
 
 	protected void onStart() {
+
+		for (User u : users) {
+
+			u.teleport(getSpawn(u.getTeam()));
+
+		}
+
+		broadcast("match-started");
 
 	}
 
@@ -276,6 +306,11 @@ public class Arena implements ISerializable {
 		user.storeData();
 		user.getPlayer().getInventory().clear();
 		user.teleport(lobbySpawn);
+		user.getPlayer().setGameMode(GameMode.SURVIVAL);
+
+		if (state == WAITING && users.size() >= minPlayers) {
+			switchState(STARTING);
+		}
 
 	}
 

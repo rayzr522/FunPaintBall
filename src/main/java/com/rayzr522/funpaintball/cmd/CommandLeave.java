@@ -25,8 +25,8 @@ public class CommandLeave extends CommandHandler {
 	@Override
 	public boolean commandExecuted(String[] args) {
 
-		if (!new User(player).leave()) {
-			msg("left", args[0]);
+		if (new User(player).leave()) {
+			msg("left");
 		} else {
 			msg("not-in-map");
 		}

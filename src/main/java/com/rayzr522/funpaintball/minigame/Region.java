@@ -113,6 +113,8 @@ public class Region implements ISerializable {
 	 */
 	private void evaluate() {
 
+		if (min == null || max == null) { return; }
+
 		Vector oldMin = min;
 		Vector oldMax = max;
 
@@ -132,6 +134,7 @@ public class Region implements ISerializable {
 
 	public boolean inRegion(Location loc) {
 
+		if (!isValid()) { return false; }
 		if (loc.getWorld() != world) { return false; }
 		double x = loc.getX();
 		double y = loc.getY();

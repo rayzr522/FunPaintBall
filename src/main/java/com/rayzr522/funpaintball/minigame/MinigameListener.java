@@ -9,6 +9,7 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.rayzr522.funpaintball.util.Respawn;
 
@@ -69,6 +70,11 @@ public class MinigameListener implements Listener {
 		User user = new User(e.getPlayer());
 		if (user.getCurrentArena() == null) { return; }
 		e.setCancelled(true);
+	}
+
+	@EventHandler
+	public void onPlayerLeave(PlayerQuitEvent e) {
+		new User(e.getPlayer()).leave();
 	}
 
 }
