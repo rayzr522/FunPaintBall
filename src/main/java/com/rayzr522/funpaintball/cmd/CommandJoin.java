@@ -15,46 +15,48 @@ import com.rayzr522.funpaintball.util.Msg;
  */
 public class CommandJoin extends CommandHandler {
 
-	private Minigame mg;
+    private Minigame mg;
 
-	public CommandJoin(Minigame mg) {
-		super(null, "join");
-		this.mg = mg;
-	}
+    public CommandJoin(Minigame mg) {
+        super(null, "join");
+        this.mg = mg;
+    }
 
-	@Override
-	public boolean commandExecuted(String[] args) {
+    @Override
+    public boolean commandExecuted(String[] args) {
 
-		if (args.length < 1) { return false; }
+        if (args.length < 1) {
+            return false;
+        }
 
-		Arena arena = mg.getArena(args[0]);
-		if (arena == null) {
-			msg("no-such-map", args[0]);
-			return false;
-		}
+        Arena arena = mg.getArena(args[0]);
+        if (arena == null) {
+            msg("no-such-map", args[0]);
+            return false;
+        }
 
-		msg("joining", args[0]);
-		if (!new User(player).join(arena)) {
-			msg("failed-to-join", args[0]);
-		}
+        msg("joining", args[0]);
+        if (!new User(player).join(arena)) {
+            msg("failed-to-join", args[0]);
+        }
 
-		return true;
+        return true;
 
-	}
+    }
 
-	@Override
-	public String getPermission() {
-		return "fpb.user";
-	}
+    @Override
+    public String getPermission() {
+        return "fpb.user";
+    }
 
-	@Override
-	public String getDescription() {
-		return "Joins the queue";
-	}
+    @Override
+    public String getDescription() {
+        return "Joins the queue";
+    }
 
-	@Override
-	public String getUsage() {
-		return Msg.get("usage.join");
-	}
+    @Override
+    public String getUsage() {
+        return Msg.get("usage.join");
+    }
 
 }

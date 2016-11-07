@@ -13,42 +13,44 @@ import com.rayzr522.funpaintball.util.Msg;
  */
 public class CommandCreateMap extends CommandHandler {
 
-	private Minigame mg;
+    private Minigame mg;
 
-	public CommandCreateMap(Minigame mg) {
-		super(null, "createmap");
-		this.mg = mg;
-	}
+    public CommandCreateMap(Minigame mg) {
+        super(null, "createmap");
+        this.mg = mg;
+    }
 
-	@Override
-	public boolean commandExecuted(String[] args) {
+    @Override
+    public boolean commandExecuted(String[] args) {
 
-		if (args.length < 1) { return false; }
+        if (args.length < 1) {
+            return false;
+        }
 
-		if (mg.createArena(args[0]) == null) {
-			msg("map-exists", args[0]);
-			return false;
-		}
+        if (mg.createArena(args[0]) == null) {
+            msg("map-exists", args[0]);
+            return false;
+        }
 
-		msg("map-created", args[0]);
+        msg("map-created", args[0]);
 
-		return true;
+        return true;
 
-	}
+    }
 
-	@Override
-	public String getPermission() {
-		return "fpb.admin";
-	}
+    @Override
+    public String getPermission() {
+        return "fpb.admin";
+    }
 
-	@Override
-	public String getDescription() {
-		return "Creates a map";
-	}
+    @Override
+    public String getDescription() {
+        return "Creates a map";
+    }
 
-	@Override
-	public String getUsage() {
-		return Msg.get("usage.createmap");
-	}
+    @Override
+    public String getUsage() {
+        return Msg.get("usage.createmap");
+    }
 
 }

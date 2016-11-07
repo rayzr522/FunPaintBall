@@ -13,32 +13,32 @@ import com.rayzr522.funpaintball.util.Msg;
  */
 public class CommandFPB extends CommandHandler {
 
-	private FunPaintBall plugin;
+    private FunPaintBall plugin;
 
-	public CommandFPB(FunPaintBall plugin) {
-		super(plugin.getCommand("funpaintball"), "fpb");
-		this.plugin = plugin;
-	}
+    public CommandFPB(FunPaintBall plugin) {
+        super(plugin.getCommand("funpaintball"), "fpb");
+        this.plugin = plugin;
+    }
 
-	@Override
-	public boolean commandExecuted(String[] args) {
-		msg("plugin-info", plugin.versionText());
-		return true;
-	}
+    @Override
+    public boolean commandExecuted(String[] args) {
+        msg("plugin-info", plugin.versionText());
+        return true;
+    }
 
-	@Override
-	public String getPermission() {
-		return "fpb.user";
-	}
+    @Override
+    public String getPermission() {
+        return "fpb.user";
+    }
 
-	@Override
-	public String getDescription() {
-		return "The base command of FunPaintBall";
-	}
+    @Override
+    public String getDescription() {
+        return "The base command of FunPaintBall";
+    }
 
-	@Override
-	public String getUsage() {
-		return Msg.get("usage.fpb");
-	}
+    @Override
+    public String getUsage() {
+        return Msg.get("usage.fpb");
+    }
 
 }

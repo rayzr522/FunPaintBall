@@ -14,43 +14,45 @@ import com.rayzr522.funpaintball.util.Msg;
  */
 public class CommandDeleteMap extends CommandHandler {
 
-	private Minigame mg;
+    private Minigame mg;
 
-	public CommandDeleteMap(Minigame mg) {
-		super(null, "deletemap");
-		this.mg = mg;
-	}
+    public CommandDeleteMap(Minigame mg) {
+        super(null, "deletemap");
+        this.mg = mg;
+    }
 
-	@Override
-	public boolean commandExecuted(String[] args) {
+    @Override
+    public boolean commandExecuted(String[] args) {
 
-		if (args.length < 1) { return false; }
+        if (args.length < 1) {
+            return false;
+        }
 
-		Arena arena = mg.getArena(args[0]);
-		if (arena == null || !mg.removeArena(arena)) {
-			msg("no-such-map", args[0]);
-			return false;
-		}
+        Arena arena = mg.getArena(args[0]);
+        if (arena == null || !mg.removeArena(arena)) {
+            msg("no-such-map", args[0]);
+            return false;
+        }
 
-		msg("map-removed", args[0]);
+        msg("map-removed", args[0]);
 
-		return true;
+        return true;
 
-	}
+    }
 
-	@Override
-	public String getPermission() {
-		return "fpb.admin";
-	}
+    @Override
+    public String getPermission() {
+        return "fpb.admin";
+    }
 
-	@Override
-	public String getDescription() {
-		return "Deletes a map";
-	}
+    @Override
+    public String getDescription() {
+        return "Deletes a map";
+    }
 
-	@Override
-	public String getUsage() {
-		return Msg.get("usage.deletemap");
-	}
+    @Override
+    public String getUsage() {
+        return Msg.get("usage.deletemap");
+    }
 
 }

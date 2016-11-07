@@ -27,138 +27,138 @@ import com.rayzr522.funpaintball.util.Msg;
  */
 public class FunPaintBall extends JavaPlugin {
 
-	/**
-	 * The instance of this plugin
-	 */
-	public static FunPaintBall	INSTANCE;
+    /**
+     * The instance of this plugin
+     */
+    public static FunPaintBall INSTANCE;
 
-	/**
-	 * The logger
-	 */
-	private Logger				logger;
+    /**
+     * The logger
+     */
+    private Logger             logger;
 
-	/**
-	 * The root command for this plugin
-	 */
-	private CommandHandler		root;
+    /**
+     * The root command for this plugin
+     */
+    private CommandHandler     root;
 
-	/**
-	 * The minigame instance for this plugin
-	 */
-	private Minigame			mg;
+    /**
+     * The minigame instance for this plugin
+     */
+    private Minigame           mg;
 
-	@Override
-	public void onEnable() {
+    @Override
+    public void onEnable() {
 
-		INSTANCE = this;
+        INSTANCE = this;
 
-		// Get the logger
-		logger = getLogger();
+        // Get the logger
+        logger = getLogger();
 
-		// Initialize the Configuration utility
-		Configuration.init(this);
+        // Initialize the Configuration utility
+        Configuration.init(this);
 
-		// Load the messages.yml file
-		if (!Configuration.loadFromJar("messages.yml")) {
-			// Something went wrong, let's go die in a hole
-			warn("Something went wrong when loading 'messages.yml'");
-			warn("Goodbye cruel world...");
-			Bukkit.getPluginManager().disablePlugin(this);
-		}
+        // Load the messages.yml file
+        if (!Configuration.loadFromJar("messages.yml")) {
+            // Something went wrong, let's go die in a hole
+            warn("Something went wrong when loading 'messages.yml'");
+            warn("Goodbye cruel world...");
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
 
-		// Initialize the minigame
-		mg = new Minigame(this, "FunPaintBall");
+        // Initialize the minigame
+        mg = new Minigame(this, "FunPaintBall");
 
-		// Load all config files
-		load();
+        // Load all config files
+        load();
 
-		// Register the commands
-		registerCommands();
+        // Register the commands
+        registerCommands();
 
-		// We're up and running!
-		info(versionText() + " enabled");
+        // We're up and running!
+        info(versionText() + " enabled");
 
-	}
+    }
 
-	@Override
-	public void onDisable() {
+    @Override
+    public void onDisable() {
 
-		// Force stop all matches
-		mg.stop();
+        // Force stop all matches
+        mg.stop();
 
-		save();
-		info(versionText() + " disabled");
+        save();
+        info(versionText() + " disabled");
 
-	}
+    }
 
-	/**
-	 * Load all config files
-	 */
-	public void load() {
+    /**
+     * Load all config files
+     */
+    public void load() {
 
-		// Load all messages from the config file
-		Msg.load(Configuration.getConfig("messages.yml"));
+        // Load all messages from the config file
+        Msg.load(Configuration.getConfig("messages.yml"));
 
-		// Load the config file itself
-		Config.load();
+        // Load the config file itself
+        Config.load();
 
-		// Load the minigame
-		mg.load();
+        // Load the minigame
+        mg.load();
 
-	}
+    }
 
-	/**
-	 * Save all config files
-	 */
-	public void save() {
+    /**
+     * Save all config files
+     */
+    public void save() {
 
-		// Save the minigame
-		mg.save();
+        // Save the minigame
+        mg.save();
 
-	}
+    }
 
-	/**
-	 * Alias of {@link Logger#info(String)}
-	 * 
-	 * @param msg
-	 *            the message
-	 */
-	public void info(String msg) {
-		logger.info(msg);
-	}
+    /**
+     * Alias of {@link Logger#info(String)}
+     * 
+     * @param msg
+     *            the message
+     */
+    public void info(String msg) {
+        logger.info(msg);
+    }
 
-	/**
-	 * Alias of {@link Logger#warning(String)}
-	 * 
-	 * @param msg
-	 *            the message
-	 */
-	public void warn(String msg) {
-		logger.warning(msg);
-	}
+    /**
+     * Alias of {@link Logger#warning(String)}
+     * 
+     * @param msg
+     *            the message
+     */
+    public void warn(String msg) {
+        logger.warning(msg);
+    }
 
-	/**
-	 * 
-	 * @return The version text in the format of {@code <name> v<version>}
-	 */
-	public String versionText() {
-		return getName() + " v" + getDescription().getVersion();
-	}
+    /**
+     * 
+     * @return The version text in the format of {@code <name> v<version>}
+     */
+    public String versionText() {
+        return getName() + " v" + getDescription().getVersion();
+    }
 
-	/**
-	 * ONLY CALL THIS ONCE<br>
-	 * Registers all the commands
-	 */
-	private void registerCommands() {
+    /**
+     * ONLY CALL THIS ONCE<br>
+     * Registers all the commands
+     */
+    private void registerCommands() {
 
-		root = new CommandFPB(this);
-		root.addChild(new CommandSetSpawn(mg));
-		root.addChild(new CommandSetPoint(mg));
-		root.addChild(new CommandCreateMap(mg));
-		root.addChild(new CommandDeleteMap(mg));
-		root.addChild(new CommandJoin(mg));
-		root.addChild(new CommandLeave(mg));
+        root = new CommandFPB(this);
+        root.addChild(new CommandSetSpawn(mg));
+        root.addChild(new CommandSetPoint(mg));
+        root.addChild(new CommandCreateMap(mg));
+        root.addChild(new CommandDeleteMap(mg));
+        root.addChild(new CommandJoin(mg));
+        root.addChild(new CommandLeave(mg));
 
-	}
+    }
 
 }

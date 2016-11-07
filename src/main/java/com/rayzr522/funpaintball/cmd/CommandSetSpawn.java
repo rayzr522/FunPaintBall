@@ -14,71 +14,73 @@ import com.rayzr522.funpaintball.util.Msg;
  */
 public class CommandSetSpawn extends CommandHandler {
 
-	private Minigame mg;
+    private Minigame mg;
 
-	public CommandSetSpawn(Minigame mg) {
-		super(null, "setspawn");
-		this.mg = mg;
-	}
+    public CommandSetSpawn(Minigame mg) {
+        super(null, "setspawn");
+        this.mg = mg;
+    }
 
-	@Override
-	public boolean commandExecuted(String[] args) {
+    @Override
+    public boolean commandExecuted(String[] args) {
 
-		if (args.length < 1) { return false; }
+        if (args.length < 1) {
+            return false;
+        }
 
-		String arenaName = "default";
-		if (args.length > 1) {
-			arenaName = args[1];
-		}
+        String arenaName = "default";
+        if (args.length > 1) {
+            arenaName = args[1];
+        }
 
-		Arena arena = mg.getArena(arenaName);
-		if (arena == null) {
-			msg("no-such-map", arenaName);
-			return false;
-		}
+        Arena arena = mg.getArena(arenaName);
+        if (arena == null) {
+            msg("no-such-map", arenaName);
+            return false;
+        }
 
-		String point = args[0].toLowerCase();
+        String point = args[0].toLowerCase();
 
-		switch (point) {
-		case "blue":
-			arena.setArenaBlueSpawn(player.getLocation());
-			break;
-		case "red":
-			arena.setArenaRedSpawn(player.getLocation());
-			break;
-		case "lobby":
-			arena.setLobbySpawn(player.getLocation());
-			break;
-		case "exit":
-			arena.setExit(player.getLocation());
-			break;
-		case "death":
-			arena.setDeathBoxSpawn(player.getLocation());
-			break;
-		default:
-			msg("valid-spawns", "blue, red, lobby, exit, death");
-			return false;
-		}
+        switch (point) {
+            case "blue":
+                arena.setArenaBlueSpawn(player.getLocation());
+                break;
+            case "red":
+                arena.setArenaRedSpawn(player.getLocation());
+                break;
+            case "lobby":
+                arena.setLobbySpawn(player.getLocation());
+                break;
+            case "exit":
+                arena.setExit(player.getLocation());
+                break;
+            case "death":
+                arena.setDeathBoxSpawn(player.getLocation());
+                break;
+            default:
+                msg("valid-spawns", "blue, red, lobby, exit, death");
+                return false;
+        }
 
-		msg("spawn-set", point);
+        msg("spawn-set", point);
 
-		return true;
+        return true;
 
-	}
+    }
 
-	@Override
-	public String getPermission() {
-		return "fpb.admin";
-	}
+    @Override
+    public String getPermission() {
+        return "fpb.admin";
+    }
 
-	@Override
-	public String getDescription() {
-		return "Sets one of the various spawns for an arena";
-	}
+    @Override
+    public String getDescription() {
+        return "Sets one of the various spawns for an arena";
+    }
 
-	@Override
-	public String getUsage() {
-		return Msg.get("usage.setspawn");
-	}
+    @Override
+    public String getUsage() {
+        return Msg.get("usage.setspawn");
+    }
 
 }

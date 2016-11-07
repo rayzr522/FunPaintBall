@@ -12,25 +12,25 @@ import com.rayzr522.funpaintball.config.ISerializationHandler;
 
 public class WorldSerializer implements ISerializationHandler<World> {
 
-	@Override
-	public Map<String, Object> serialize(World obj) {
+    @Override
+    public Map<String, Object> serialize(World obj) {
 
-		Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 
-		map.put("uuid", obj.getUID().toString());
+        map.put("uuid", obj.getUID().toString());
 
-		return map;
-	}
+        return map;
+    }
 
-	@Override
-	public World deserialize(Map<String, Object> map) {
+    @Override
+    public World deserialize(Map<String, Object> map) {
 
-		UUID uuid = UUID.fromString((String) map.get("uuid"));
+        UUID uuid = UUID.fromString((String) map.get("uuid"));
 
-		World world = Bukkit.getWorld(uuid);
+        World world = Bukkit.getWorld(uuid);
 
-		return world;
+        return world;
 
-	}
+    }
 
 }
